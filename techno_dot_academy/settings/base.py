@@ -107,10 +107,10 @@ DATABASES = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'techno_wagtail',   
-        'USER': 'postgres',      
-        'PASSWORD': 'vishnu369', 
-        'HOST': 'localhost',          
+        'NAME': 'wagtail_techno_host',   
+        'USER': 'wagtail_techno_host_user',      
+        'PASSWORD': 'fl8bcfMqLRDoyEKRMGnNkHklxNFbrnA5', 
+        'HOST': 'dpg-d2jgiv3uibrs73dk12k0-a',          
         'PORT': '5432',             
     }
 }
