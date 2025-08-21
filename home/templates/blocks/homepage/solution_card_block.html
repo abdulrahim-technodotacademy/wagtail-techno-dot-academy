@@ -1,0 +1,18 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+
+<div class="solution-card">
+    <div class="solution-card-image">
+        {% image self.image fill-400x220 as card_image %}
+        <img src="{{ card_image.url }}" alt="{{ self.title }}">
+    </div>
+    <div class="solution-card-content">
+        <h3 class="solution-card-title">{{ self.title }}</h3>
+        <p class="solution-card-text">{{ self.text }}</p>
+        <div class="solution-card-button">
+            {# This checks if a page has been linked #}
+            {% if self.link_page %}
+                <a href="{% pageurl self.link_page %}">...</a>
+            {% endif %}
+        </div>
+    </div>
+</div>

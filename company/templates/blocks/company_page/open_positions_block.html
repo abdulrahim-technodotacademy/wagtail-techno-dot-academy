@@ -1,0 +1,14 @@
+<section class="open-positions-section">
+    <h2 class="open-positions-title">{{ self.title }}</h2>
+    <div class="positions-list">
+        {% for pos in self.positions %}
+            <div class="position-item {% if pos.is_highlighted %}highlighted{% endif %}">
+                <div class="position-info">
+                    <h3>{{ pos.title }}</h3>
+                    <p class="count">{{ pos.position_count }}</p>
+                </div>
+                {% if pos.apply_link %}<a href="{{ pos.apply_link }}" class="apply-link">Apply Now</a>{% endif %}
+            </div>
+        {% endfor %}
+    </div>
+</section>

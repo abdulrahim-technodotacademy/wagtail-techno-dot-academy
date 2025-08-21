@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% load static wagtailcore_tags wagtailimages_tags %}
+
+{% block content %}
+    <section class="webinar-hero">
+        {% if page.hero_image %}
+            {% image page.hero_image fill-1920x1080 as hero_img %}
+            <img src="{{ hero_img.url }}" alt="" class="webinar-hero-bg">
+        {% endif %}
+        <div class="webinar-hero-overlay"></div>
+        <div class="webinar-hero-content">
+            <h1>{% if page.title_override %}{{ page.title_override }}{% else %}{{ page.title }}{% endif %}</h1>
+            <p>{{ page.subtitle }}</p>
+        </div>
+    </section>
+
+    <section class="webinar-content-section">
+        <div class="webinar-grid">
+            {# This loop now creates a separate card for each item #}
+            {% for card in page.webinar_cards.all %}
+                <div class="webinar-card">
+                    <div class="webinar-card-tag">{{ card.tag }}</div>
+                    
+                    <div class="webinar-card-content">
+                        <div class="webinar-card-trainer">
+                            {% if card.trainer_image %}
+                                {% image card.trainer_image fill-120x120-c100 as trainer_img %}
+                                <img src="{{ trainer_img.url }}" alt="{{ card.trainer_name }}">
+                            {% else %}
+                                {# A better placeholder for dark themes #}
+                                <div style="width: 120px; height: 120px; border-radius: 50%; background-color: rgba(255,255,255,0.1); margin: 0 auto 1rem auto;"></div>
+                            {% endif %}
+                            <p class="webinar-card-trainer-name">{{ card.trainer_name }}</p>
+                            <p class="webinar-card-trainer-role">{{ card.trainer_role }}</p>
+                        </div>
+
+                        <h2 class="webinar-card-workshop-title">{{ card.workshop_title }}</h2>
+                        
+                        <div class="webinar-card-details">
+                            <div class="webinar-card-detail">
+                                <span>📅</span>
+                                <span>{{ card.date }}</span>
+                            </div>
+                            <div class="webinar-card-detail">
+                                <span>🕒</span>
+                                <span>{{ card.time }}</span>
+                            </div>
+                        </div>
+
+                        <div class="webinar-card-button {% if card.is_expired %}expired{% endif %}">
+                            {% if card.is_expired %}
+                                <a href="#">Expired</a>
+                            {% else %}
+                                <a href="{{ card.apply_link }}" target="_blank" rel="noopener noreferrer">Apply Now</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+{% endblock %}

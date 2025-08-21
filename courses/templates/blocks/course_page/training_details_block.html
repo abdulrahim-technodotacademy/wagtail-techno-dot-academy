@@ -1,0 +1,30 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+<section class="training-details-section">
+    {% if self.main_logo or self.main_title %}
+    <div class="training-details-header">
+        {% if self.main_logo %}{% image self.main_logo original as logo %}<img src="{{ logo.url }}" alt="">{% endif %}
+        {% if self.main_title %}<h2>{{ self.main_title }}</h2>{% endif %}
+    </div>
+    {% endif %}
+    <div class="training-details-grid three-col"> {# ADDED three-col CLASS #}
+        <div class="training-col rich-text">
+            {% if self.left_column_title %}<h3>{{ self.left_column_title }}</h3>{% endif %}
+            {% for item in self.left_column_items %}
+                {{ item|richtext }}
+            {% endfor %}
+        </div>
+        {# NEW MIDDLE COLUMN #}
+        <div class="training-col rich-text">
+            {% if self.middle_column_title %}<h3>{{ self.middle_column_title }}</h3>{% endif %}
+            {% for item in self.middle_column_items %}
+                {{ item|richtext }}
+            {% endfor %}
+        </div>
+        <div class="training-col rich-text">
+            {% if self.right_column_title %}<h3>{{ self.right_column_title }}</h3>{% endif %}
+            {% for item in self.right_column_items %}
+                {{ item|richtext }}
+            {% endfor %}
+        </div>
+    </div>
+</section>

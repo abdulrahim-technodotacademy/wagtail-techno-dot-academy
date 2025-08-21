@@ -1,0 +1,15 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+
+<div class="icon-card">
+    <div class="icon-card-icon">
+        {# This is the crucial part for showing the image. #}
+        {% image self.icon original as icon_img %}
+        <img src="{{ icon_img.url }}" alt="{{ self.title|striptags }}">
+    </div>
+    
+    {# This correctly prints the title and text values. #}
+    <h3 class="icon-card-title">{{ self.title|safe }}</h3>
+    <div class="icon-card-text rich-text">
+        {{ self.text|richtext }}
+    </div>
+</div>

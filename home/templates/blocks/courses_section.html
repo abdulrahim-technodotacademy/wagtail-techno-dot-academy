@@ -1,0 +1,25 @@
+{% load wagtailcore_tags %}
+<section class="courses" id="courses">
+    <div class="courses-container">
+        <div class="courses-header">
+            <div>
+                <h2 class="section-title">{{ self.title }}</h2>
+                <p class="section-subtitle">{{ self.subtitle }}</p>
+            </div>
+            <!-- Added data-filter attributes for JS -->
+            <div class="course-filters">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="cloud">Cloud</button>
+                <button class="filter-btn" data-filter="web dev">Web Dev</button>
+                <button class="filter-btn" data-filter="digital marketing">Digital Marketing</button>
+                <button class="filter-btn" data-filter="finance">Finance</button>
+            </div>
+        </div>
+
+        <div class="courses-grid">
+            {% for course in self.courses %}
+                {% include_block course %}
+            {% endfor %}
+        </div>
+    </div>
+</section>

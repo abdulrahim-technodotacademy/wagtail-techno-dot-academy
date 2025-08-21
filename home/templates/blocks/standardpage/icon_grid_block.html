@@ -1,0 +1,11 @@
+{% load wagtailcore_tags %}
+
+<section class="page-section icon-grid-section">
+    <h2 class="icon-grid-title">{{ self.title }}</h2>
+    <div class="icon-grid">
+        {# This is the crucial part. It tells Wagtail to use the correct template for each card. #}
+        {% for card in self.cards %}
+            {% include_block card %}
+        {% endfor %}
+    </div>
+</section>

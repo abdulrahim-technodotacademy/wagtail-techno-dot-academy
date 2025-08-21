@@ -1,0 +1,25 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+<section class="tabbed-content-section">
+    <div class="tab-nav">
+        {% for tab in self.tabs %}
+            {# The 'forloop.first' makes the first tab active by default #}
+            <div class="tab-nav-item {% if forloop.first %}active{% endif %}" data-tab="tab-{{ forloop.counter }}">
+                {% if tab.tab_icon %}
+                    {% image tab.tab_icon original as icon %}
+                    <img src="{{ icon.url }}" alt="">
+                {% endif %}
+                {{ tab.tab_title }}
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="tab-content-container">
+        {% for tab in self.tabs %}
+            <div class="tab-pane {% if forloop.first %}active{% endif %}" id="tab-{{ forloop.counter }}">
+                {% for card in tab.cards %}
+                    {% include_block card %}
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+</section>

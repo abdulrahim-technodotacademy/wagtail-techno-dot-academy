@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags home_tags %}
+
+{% block content %}
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-container">
+            <div class="hero-content">
+                {# The |safe filter allows us to use <span> tags in the admin for the gradient #}
+                <h1>{{ page.hero_title|safe }}</h1> 
+                
+                {# The |richtext filter renders the rich text field content safely #}
+                {{ page.hero_subtitle|richtext }}
+                
+                <div class="hero-buttons">
+                    <a href="#courses" class="btn-primary pulse">{{ page.hero_primary_button_text }}</a>
+                    {% comment %} <a href="#demo" class="btn-secondary">{{ page.hero_secondary_button_text }}</a> {% endcomment %}
+                </div>
+
+                {# We access the stats using the `related_name` we set in models.py #}
+                <div class="hero-stats">
+                    {% for stat in page.hero_stats.all %}
+                        <div class="stat">
+                            <div class="stat-number">{{ stat.stat_number }}</div>
+                            <div class="stat-label">{{ stat.stat_label }}</div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            {# This is the magic of StreamField. We loop through the blocks defined in the page body #}
+            {% for block in page.body %}
+                {# Find the hero_cards block and render it in its special place #}
+                {% if block.block_type == 'hero_cards' %}
+                    <div class="hero-visual">
+                        <div class="floating-cards">
+                            {% for card in block.value %}
+                                {% include_block card %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+
+        </div>
+    </section>
+
+    {# Now we loop through the body again to render all the other main section blocks in order #}
+    {% for block in page.body %}
+      {% if block.block_type != 'hero_cards' %}
+          {% include_block block %}
+      {% endif %}
+    {% endfor %}
+
+{% endblock %}

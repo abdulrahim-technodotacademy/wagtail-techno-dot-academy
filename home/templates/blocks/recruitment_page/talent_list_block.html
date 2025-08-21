@@ -1,0 +1,10 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+<section class="rec-talent-list">
+    {% image self.background_image original as img %}
+    <img src="{{ img.url }}" class="rec-talent-list-bg" alt="">
+    <div class="rec-talent-list-overlay"></div>
+    <div class="rec-talent-list-grid">
+        <h2 class="list-title">{{ self.title|safe }}</h2>
+        <div class="rich-text">{{ self.talent_list|richtext }}</div>
+    </div>
+</section>

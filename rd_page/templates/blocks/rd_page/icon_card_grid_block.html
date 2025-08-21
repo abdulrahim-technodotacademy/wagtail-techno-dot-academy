@@ -1,0 +1,16 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+<section class="icon-card-grid-section">
+    <h2 class="icon-card-grid-section-title">New Product Research And Development</h2>
+    <div class="icon-card-grid">
+        {% for card in self.cards %}
+            <div class="icon-card-grid-item">
+                <div class="icon-card-grid-item-header">
+                    {% image card.icon original as icon %}
+                    <img src="{{ icon.url }}" alt="">
+                    <h3>{{ card.title }}</h3>
+                </div>
+                <div class="rich-text">{{ card.text|richtext }}</div>
+            </div>
+        {% endfor %}
+    </div>
+</section>

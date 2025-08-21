@@ -1,0 +1,7 @@
+{% load wagtailimages_tags %}
+<section class="rec-hero">
+    {% image self.image original as img %}
+    <img src="{{ img.url }}" class="rec-hero-bg" alt="">
+    <div class="rec-hero-overlay"></div>
+    <div class="rec-hero-title">{{ self.title|safe }}</div>
+</section>

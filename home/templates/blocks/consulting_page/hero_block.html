@@ -1,0 +1,9 @@
+{% load wagtailimages_tags %}
+<section class="consulting-hero">
+    {% image self.image original as img %}
+    <img src="{{ img.url }}" class="consulting-hero-bg" alt="">
+    <div class="consulting-hero-overlay"></div>
+    <h1 class="consulting-hero-title">
+        {{ self.title|safe }} <span class="arrow">→</span>
+    </h1>
+</section>

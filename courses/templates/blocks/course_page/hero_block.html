@@ -1,0 +1,68 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+<section class="course-hero-section">
+    <div class="course-hero-grid">
+        <div class="course-hero-image">
+            {% image self.image fill-800x1000 as img %}
+            <img src="{{ img.url }}" alt="{{ self.title }}">
+        </div>
+        <div class="course-hero-content">
+            <span class="tag">{{ self.tag }}</span>
+            <h1>{{ self.title }}</h1>
+            <div class="description rich-text">{{ self.description|richtext }}</div>
+            <div class="course-hero-details">
+                {% if self.duration %}
+                <div class="detail-item">
+                    <h4>Duration:</h4>
+                    <p>{{ self.duration }}</p>
+                </div>
+                {% endif %}
+                {% if self.mode %}
+                <div class="detail-item">
+                    <h4>Mode:</h4>
+                    <p>{{ self.mode }}</p>
+                </div>
+                {% endif %}
+                {% if self.eligibility %}
+                <div class="detail-item">
+                    <h4>Eligibility:</h4>
+                    <p>{{ self.eligibility }}</p>
+                </div>
+                {% endif %}
+            </div>
+
+                        <!-- Add this entire block inside the course-hero-content div -->
+            <div class="course-hero-accreditations">
+                {% for item in page.accreditations.all %}
+                    <div class="accreditation-item">
+                        {% image item.icon original as acc_icon %}
+                        <img src="{{ acc_icon.url }}" alt="">
+                        <span>{{ item.text }}</span>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="course-certifications">
+                {% if self.certifications %}
+                    <h4>*Certifications:</h4>
+                    <div class="cert-logos">
+                        {% for logo in self.certifications %}
+                            {% image logo original as logo_img %}
+                            <img src="{{ logo_img.url }}" alt="">
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            
+            <div class="course-apply-buttons">
+                {% if self.apply_button_text %}
+                    <a href="#" class="apply-btn" data-open-popup="apply-popup">{{ self.apply_button_text }}</a>
+                {% endif %}
+            
+                {% if self.phone_number %}
+                    <a href="tel:{{ self.phone_number }}" class="phone-btn">📲{{ self.phone_number }}</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+

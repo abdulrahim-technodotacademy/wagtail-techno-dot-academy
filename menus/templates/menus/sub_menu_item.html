@@ -1,0 +1,12 @@
+{% load menu_tags wagtailcore_tags %}
+
+<li class="{% if item.level_3_items.all %}has-dropdown{% endif %}">
+    <a href="{{ item.url }}">{{ item.title }}</a>
+    {% if item.level_3_items.all %}
+        <ul class="dropdown-menu">
+            {% for child in item.level_3_items.all %}
+                {% include "menus/sub_menu_level3.html" with item=child %}
+            {% endfor %}
+        </ul>
+    {% endif %}
+</li>

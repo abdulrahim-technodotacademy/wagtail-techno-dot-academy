@@ -1,0 +1,27 @@
+{% load wagtailcore_tags wagtailimages_tags home_tags %}
+
+{# The entire card is a link IF a link_page is selected #}
+<a href="{% if self.link_page %}{% pageurl self.link_page %}{% else %}#{% endif %}" 
+   class="course-card" 
+   data-category="{{ self.tags|lower|replace:', , ' }}">
+    
+    <div class="course-image">
+        {% if self.icon %}
+            {% image self.icon original as icon_img %}
+            <img src="{{ icon_img.url }}" alt="{{ self.title }}">
+        {% endif %}
+    </div>
+    <div class="course-content">
+        <div class="course-meta">
+            {% for tag in self.tags|split:"," %}
+              <span class="course-tag">{{ tag|striptags }}</span>
+            {% endfor %}
+        </div>
+        <h3 class="course-title">{{ self.title }}</h3>
+        <p class="course-desc">{{ self.description }}</p>
+        <div class="course-stats">
+            <span class="course-duration">{{ self.duration }}</span>
+            <span class="course-price">{{ self.price }}</span>
+        </div>
+    </div>
+</a>

@@ -1,0 +1,7 @@
+{% load wagtailimages_tags %}
+<section class="sp-hero">
+    {% image self.image original as hero_bg %}
+    <img src="{{ hero_bg.url }}" alt="" class="sp-hero-bg">
+    <div class="sp-hero-overlay"></div>
+    <h1 class="sp-hero-title">{{ self.title|safe }}</h1>
+</section>

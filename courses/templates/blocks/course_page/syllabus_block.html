@@ -1,0 +1,21 @@
+{% load wagtailcore_tags %}
+<section class="syllabus-section">
+    <div class="syllabus-container">
+        {% if self.title %}<h2 class="syllabus-title">{{ self.title }}</h2>{% endif %}
+        {% if self.subtitle %}<p class="syllabus-subtitle">{{ self.subtitle }}</p>{% endif %}
+        
+        <div class="syllabus-grid">
+            <div class="syllabus-column">
+                {# This simply renders the entire StreamField #}
+                {% for block in self.left_column %}
+                    {% include_block block %}
+                {% endfor %}
+            </div>
+            <div class="syllabus-column">
+                {% for block in self.right_column %}
+                    {% include_block block %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>

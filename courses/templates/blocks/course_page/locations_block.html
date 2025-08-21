@@ -1,0 +1,36 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+
+<section class="locations-section">
+    <h2 class="locations-title">{{ self.title }}</h2>
+    <div class="locations-grid">
+        {% for location in self.locations %}
+            <div class="location-card">
+                <div class="location-card-header">
+                    {% if location.icon %}
+                        {% image location.icon original as icon %}
+                        <img src="{{ icon.url }}" alt="">
+                    {% endif %}
+                    <h3>{{ location.location_name }}</h3>
+                </div>
+                <div class="location-card-body">
+                    {% if location.office_name %}<h4>{{ location.office_name }}</h4>{% endif %}
+                    {% if location.address %}
+                    <div class="address rich-text">
+                        {{ location.address|richtext }}
+                    </div>
+                    {% endif %}
+                    {% if location.phone %}
+                    <p class="phone">
+                        <a href="tel:{{ location.phone }}">{{ location.phone }}</a>
+                    </p>
+                    {% endif %}
+                    {% if location.email %}
+                    <p class="email">
+                        <a href="mailto:{{ location.email }}">{{ location.email }}</a>
+                    </p>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</section>

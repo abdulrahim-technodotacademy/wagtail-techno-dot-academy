@@ -1,0 +1,10 @@
+{% load wagtailcore_tags %}
+
+<section class="partners-section">
+    <h2 class="partners-title">{{ self.title }}</h2>
+    <div class="partners-grid">
+        {% for partner in self.logos %}
+            {% include_block partner %}
+        {% endfor %}
+    </div>
+</section>

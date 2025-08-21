@@ -1,0 +1,14 @@
+{% load wagtailcore_tags %}
+<section class="page-section">
+    <div class="two-col-grid">
+        <div class="two-col-left">
+            <h3>{{ self.left_column_title|safe }}</h3>
+        </div>
+        <div class="two-col-right">
+            <h4>{{ self.right_column_title }}</h4>
+            <div class="rich-text">
+                {{ self.right_column_text|richtext }}
+            </div>
+        </div>
+    </div>
+</section>

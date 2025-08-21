@@ -1,0 +1,21 @@
+{% load wagtailcore_tags %}
+
+<section class="testimonials-section">
+    <h2 class="testimonials-title">{{ self.title }}</h2>
+
+    <div class="testimonial-slider-container">
+        <!-- Swiper.js container -->
+        <div class="testimonial-slider">
+            <div class="swiper-wrapper">
+                {% for testimonial in self.testimonials %}
+                    {# include_block will use testimonial_block.html #}
+                    {% include_block testimonial %}
+                {% endfor %}
+            </div>
+        </div>
+        <!-- Navigation Arrows -->
+        <div class="slider-arrow prev"><</div>
+        <div class="slider-arrow next">></div>
+    </div>
+
+</section>

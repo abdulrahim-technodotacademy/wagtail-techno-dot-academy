@@ -1,0 +1,14 @@
+<section class="stats-banner-section">
+    <div class="stats-banner-content">
+        <h2>{{ self.title }}</h2>
+        <p>{{ self.subtitle }}</p>
+    </div>
+    <div class="stats-banner-grid">
+        {% for stat in self.stats %}
+            <div class="stat-item">
+                <div class="value">{{ stat.value }}</div>
+                <div class="label">{{ stat.label }}</div>
+            </div>
+        {% endfor %}
+    </div>
+</section>

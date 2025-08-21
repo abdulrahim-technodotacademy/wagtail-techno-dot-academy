@@ -1,0 +1,5 @@
+{% load wagtailimages_tags %}
+<section class="rd-hero">
+    {% image self.image original as img %}
+    <img src="{{ img.url }}" alt="">
+</section>

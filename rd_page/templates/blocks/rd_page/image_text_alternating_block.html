@@ -1,0 +1,13 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+<section class="image-text-section">
+    <div class="image-text-grid {% if self.image_alignment == 'right' %}image-right{% endif %}">
+        <div class="image-text-visual">
+            {% image self.image fill-800x600 as img %}
+            <img src="{{ img.url }}" alt="{{ self.title }}">
+        </div>
+        <div class="image-text-content">
+            <h2>{{ self.title }}</h2>
+            <div class="rich-text">{{ self.text|richtext }}</div>
+        </div>
+    </div>
+</section>
