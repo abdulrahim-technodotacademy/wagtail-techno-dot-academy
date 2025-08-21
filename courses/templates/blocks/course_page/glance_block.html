@@ -1,0 +1,28 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+<section class="glance-section">
+    <div class="glance-container">
+        <div class="glance-header">
+            {% if self.tag %}<p class="tag">{{ self.tag }}</p>{% endif %}
+            <h2 class="title">{{ self.title }}</h2>
+            <p class="subtitle">{{ self.subtitle }}</p>
+        </div>
+
+        <div class="glance-details-box">
+            <h3 class="glance-title">{{ self.glance_title }}</h3>
+            <div class="glance-grid">
+                {% for item in self.items %}
+                    <div class="glance-item">
+                        <div class="glance-item-icon">
+                            {% image item.icon original as icon %}
+                            <img src="{{ icon.url }}" alt="">
+                        </div>
+                        <div class="glance-item-text">
+                            <p class="glance-item-label">{{ item.label }}</p>
+                            <p class="glance-item-value">{{ item.value }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>

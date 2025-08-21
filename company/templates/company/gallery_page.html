@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block content %}
+    <section class="gallery-detail-hero">
+        {% if page.hero_image %}
+            {% image page.hero_image original as img %}
+            <img src="{{ img.url }}" alt="" class="gallery-detail-hero-bg">
+        {% endif %}
+        <div class="gallery-detail-hero-overlay"></div>
+        <div class="gallery-detail-hero-content">
+            <div class="tag">{{ page.tag }}</div>
+            <h1>{{ page.intro_title }}</h1>
+        </div>
+    </section>
+
+    <section class="gallery-detail-grid">
+        {% for item in page.gallery_images.all %}
+            {% image item.image fill-600x400 as gallery_img %}
+            <a href="{{ gallery_img.file.url }}" data-lightbox="gallery" data-title="{{ item.caption }}">
+                <div class="gallery-detail-item">
+                    <img src="{{ gallery_img.url }}" alt="{{ item.caption }}">
+                    <div class="preview-overlay"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="34" height="34" x="0" y="0" viewBox="0 0 24 24" style="enable-background:new 0 0 512 512" xml:space="preserve"><g><path d="m15.8 3.8 1.4 1.5L15 7.5c-.4.4-.4 1 0 1.4s1 .4 1.4 0l2.2-2.2 1.5 1.4c.4.4.9.1.9-.3V3.5c0-.3-.2-.5-.5-.5h-4.3c-.4 0-.7.5-.4.8zm-12 4.3 1.4-1.4 2.2 2.2c.4.4 1 .4 1.4 0s.4-1 0-1.4L6.7 5.3l1.4-1.5c.4-.3.1-.8-.3-.8H3.5c-.3 0-.5.2-.5.5v4.3c0 .4.5.7.8.3zm4.3 12-1.5-1.4 2.2-2.2c.4-.4.4-1 0-1.4s-1-.4-1.4 0l-2.2 2.2-1.5-1.4c-.2-.4-.7-.1-.7.3v4.3c0 .3.2.5.5.5h4.3c.4 0 .7-.5.3-.9zm12.1-4.3-1.5 1.4-2.2-2.2c-.4-.4-1-.4-1.4 0s-.4 1 0 1.4l2.2 2.2-1.4 1.5c-.3.3-.1.9.4.9h4.3c.3 0 .5-.2.5-.5v-4.3c-.1-.4-.6-.7-.9-.4z" fill="#ffffff" opacity="1" data-original="#000000"></path></g></svg></div>
+                </div>
+            </a>
+        {% endfor %}
+    </section>
+
+{% endblock %}

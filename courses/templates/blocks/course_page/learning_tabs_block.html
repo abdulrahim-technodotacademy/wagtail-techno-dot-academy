@@ -1,0 +1,23 @@
+{% load wagtailcore_tags %}
+<section class="learning-tabs-section">
+    <div class="learning-tabs-container">
+        <div class="learning-tab-nav">
+            {% for tab in self.tabs %}
+                <div class="learning-tab-nav-item {% if forloop.first %}active{% endif %}" data-target="pane-{{ forloop.counter }}">
+                    <p class="subtitle">{{ tab.tab_subtitle }}</p>
+                    <h3 class="title">{{ tab.tab_title }}</h3>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="learning-tab-content">
+            {% for tab in self.tabs %}
+                <div class="learning-tab-pane {% if forloop.first %}active{% endif %}" id="pane-{{ forloop.counter }}">
+                    <div class="rich-text learning-list-wrapper">
+                        {{ tab.content_list|richtext }}
+                        <button class="read-more-btn" style="display: none;">Read More</button>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>

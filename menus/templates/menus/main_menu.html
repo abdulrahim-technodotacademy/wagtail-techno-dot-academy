@@ -1,0 +1,22 @@
+{% load menu_tags wagtailcore_tags %}
+
+<ul class="nav-menu">
+    {% for item in menu_items %}
+        <li class="nav-item {% if item.level_2_items.all %}has-dropdown{% endif %}">
+            <a href="{{ item.url }}">
+                {% if item.link_page.slug == 'home' %}
+                    <i class="fa-solid fa-house home-icon"></i>
+                {% else %}
+                    {{ item.title }}
+                {% endif %}
+            </a>
+            {% if item.level_2_items.all %}
+                <ul class="dropdown-menu">
+                    {% for sub_item in item.level_2_items.all %}
+                        {% include "menus/sub_menu_item.html" with item=sub_item %}
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </li>
+    {% endfor %}
+</ul>

@@ -1,0 +1,13 @@
+{% load menu_tags wagtailcore_tags %}
+
+<li class="{% if item.level_4_items.all %}has-dropdown{% endif %}">
+    <a href="{{ item.url }}">{{ item.title }}</a>
+    {% if item.level_4_items.all %}
+        <ul class="dropdown-menu">
+            {% for child in item.level_4_items.all %}
+                {# This is the final level, it cannot have more children #}
+                <li><a href="{{ child.url }}">{{ child.title }}</a></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</li>

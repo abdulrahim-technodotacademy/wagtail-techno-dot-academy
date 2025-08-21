@@ -1,0 +1,4 @@
+<option value="">-- Please choose an option --</option>
+{% for option in options %}
+    <option value="{{ option.name|slugify }}">{{ option.name }}</option>
+{% endfor %}

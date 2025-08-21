@@ -1,0 +1,17 @@
+{% load wagtailimages_tags %}
+<section class="placements-section">
+    {% if self.title %}<h2 class="placements-title">{{ self.title }}</h2>{% endif %}
+    <div class="placements-grid">
+        {% for student in self.students %}
+            <div class="student-card">
+                <div class="student-card-image">
+                    {% image student.image fill-150x150-c100 as img %}
+                    <img src="{{ img.url }}" alt="{{ student.name }}">
+                </div>
+                <p class="name">{{ student.name }}</p>
+                <p class="role">{{ student.role }}</p>
+                <p class="company">{{ student.company }}</p>
+            </div>
+        {% endfor %}
+    </div>
+</section>

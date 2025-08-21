@@ -1,0 +1,31 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+
+<section class="cert-grid-section">
+    <h2 class="cert-grid-title">{{ self.title }}</h2>
+    <div class="cert-grid">
+        {% for card in self.cards %}
+            <div class="cert-card">
+
+                {# --- FIX #1: Only show this div if an image exists --- #}
+                {% if card.image %}
+                <div class="cert-card-image">
+                    {% image card.image original as img %}
+                    <img src="{{ img.url }}" alt="{{ card.title }}">
+                </div>
+                {% endif %}
+
+                <div class="cert-card-content">
+                    <h3>{{ card.title }}</h3>
+                </div>
+                
+                {# --- FIX #2: Only show this div if a link exists --- #}
+                {% if card.button_link %}
+                <div class="cert-card-footer">
+                    <a href="{% pageurl card.button_link %}">{{ card.button_text }}</a>
+                </div>
+                {% endif %}
+                
+            </div>
+        {% endfor %}
+    </div>
+</section>

@@ -1,0 +1,14 @@
+{% load wagtailimages_tags %}
+<section class="rec-four-col">
+    <h2 class="rec-four-col-title">{{ self.title }}</h2>
+    <div class="rec-four-col-grid">
+        {% for col in self.columns %}
+            <div class="rec-four-col-item">
+                {% image col.icon original as icon %}
+                <img src="{{ icon.url }}" alt="">
+                <h4>{{ col.title }}</h4>
+                <p>{{ col.text }}</p>
+            </div>
+        {% endfor %}
+    </div>
+</section>

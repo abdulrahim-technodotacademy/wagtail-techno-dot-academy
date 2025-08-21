@@ -1,0 +1,13 @@
+{% load wagtailcore_tags %}
+<section class="features">
+    <div class="features-container">
+        <h2 class="section-title">{{ self.title }}</h2>
+        <p class="section-subtitle">{{ self.subtitle }}</p>
+
+        <div class="features-grid">
+            {% for feature in self.features %}
+                {% include_block feature %}
+            {% endfor %}
+        </div>
+    </div>
+</section>

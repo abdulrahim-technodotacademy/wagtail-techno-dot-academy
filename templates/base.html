@@ -1,0 +1,387 @@
+{% load static wagtailuserbar menu_tags snippet_tags wagtailsettings_tags wagtailimages_tags %}
+
+<!DOCTYPE html>
+{# Call get_settings at the top so the 'settings' variable is available everywhere #}
+{% get_settings %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% if page.seo_title %}{{ page.seo_title }}{% else %}{{ page.title }}{% endif %}{% endblock %}{% block title_postfix %} | Techno Dot Academy{% endblock %}</title>
+
+    {# CSS Links #}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/techno_dot_academy.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+</head>
+<body class="{% block body_class %}{% endblock %}">
+    {% wagtailuserbar %}
+
+    <div class="bg-animation"></div>
+
+    <!-- DYNAMIC MULTI-LEVEL NAVIGATION -->
+    {% get_menu "main" as main_menu %}
+    {% if main_menu %}
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <a href="/">
+                    <!-- We now have only ONE image tag -->
+                    <img id="site-logo" src="{% static 'img/logo.png' %}" alt="Techno Dot Academy Logo">
+                </a>
+            </div>
+
+            <div class="nav-right">
+                {% include "menus/main_menu.html" with menu_items=main_menu.level_1_items.all %}
+                <button class="theme-toggle" id="theme-toggle" title="Toggle light/dark mode">
+                    <i class="fas fa-sun"></i>
+                    <i class="fas fa-moon"></i>
+                </button>
+                <a href="{% if page.slug == 'home' %}#contact{% else %}/#contact{% endif %}" class="cta-button">Enroll Now</a>
+            </div>
+
+            <button class="nav-toggle" aria-label="Open menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+    {% endif %}
+    <!-- END DYNAMIC NAVIGATION -->
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- DYNAMIC FOOTER -->
+    {% get_footer as footer_content %}
+    {% if footer_content %}
+    <footer class="footer">
+        <!-- ... your full footer code here ... -->
+        <div class="footer-top">
+            {% for column in footer_content.footer_columns.all %}
+                <div class="footer-column">
+                    <h3>{{ column.title }}</h3>
+                    <ul>
+                        {% for link in column.footer_links.all %}
+                            <li>
+                                <a href="{% if link.link_page %}{{ link.link_page.url }}{% endif %}">{{ link.link_title }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="footer-locations">
+            <div class="location-card">
+                 <div class="location-card-header">
+                    <h3>CALICUT, INDIA</h3>
+                </div>
+                <h4>TECHNO DOT ACADEMY</h4>
+                <div class="address rich-text"><p>Kinfra Techno Industrial Park, Kakkanchery, Calicut University PO, Kerala 673635</p></div>
+                <p class="phone"><a href="tel:+918078440115">+91 807 844 0115</a></p>
+                <p class="email"><a href="mailto:info@techno.academy">info@techno.academy</a></p>
+            </div>
+            <div class="location-card">
+                 <div class="location-card-header">
+                    <h3>BENGALURU, INDIA</h3>
+                </div>
+                <h4>TECHNO DOT ACADEMY</h4>
+                <div class="address rich-text"><p>NO. 154, Royal space, 5th Main, HSR Layout 7th Sector, Bengaluru –560102</p></div>
+                <p class="phone"><a href="tel:+918078440115">+91 807 844 0115</a></p>
+                <p class="email"><a href="mailto:info@techno.academy">info@techno.academy</a></p>
+            </div>
+            <div class="location-card">
+                 <div class="location-card-header">
+                    <h3>SHARJAH, UAE</h3>
+                </div>
+                <h4>TECHNO DOT ACADEMY</h4>
+                <div class="address rich-text"><p>Sharjah Research Technology And Innovation Park, UAE</p></div>
+                <p class="phone"><a href="tel:+971525646337">+971 525646337</a></p>
+                <p class="email"><a href="mailto:info@techno.academy">info@techno.academy</a></p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>Copyright © {% now "Y" %} Techno dot academy All rights reserved.</span>
+            <div class="footer-socials">
+                <a href="https://www.facebook.com/technodotacademy"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://x.com/techno__academy"><i class="fab fa-twitter"></i></a>
+                <a href="https://www.instagram.com/technodotacademy/"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.linkedin.com/company/techno.academy/"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://www.youtube.com/c/TechnoDotAcademy"><i class="fab fa-youtube"></i></a>
+            </div>
+        </div>
+    </footer>
+    {% endif %}
+    <!-- END DYNAMIC FOOTER -->
+
+    <!-- POPUP MODAL FORM -->
+    <div class="popup-overlay" id="apply-popup">
+        <div class="popup-modal">
+            <button class="popup-close-btn" data-close-popup="apply-popup">&times;</button>
+            <div class="popup-image">
+                <img src="{% static 'img/popup-image.png' %}" alt="Start your journey">
+            </div>
+            <div class="popup-form-content">
+                <h2>Please Enter Your Details To Begin The Application.</h2>
+                
+                {# Check for the success flag from the 'serve' method #}
+                {% if application_success %}
+                    <div class="form-success-message" style="text-align: center; color: #1abc9c;">
+                        <h3>Thank You!</h3>
+                        <p>Your application has been received. We will be in touch shortly.</p>
+                    </div>
+                {% else %}
+                    <!-- Inside the popup modal in base.html -->
+                    <form action="" method="POST" class="popup-form">
+                        {% csrf_token %}
+                        
+                        {# Manually render each field for better styling #}
+                        {% if application_form %}
+                            <input type="text" name="{{ application_form.name.name }}" id="{{ application_form.name.id_for_label }}" placeholder="Name" required>
+                            <input type="tel" name="{{ application_form.phone.name }}" id="{{ application_form.phone.id_for_label }}" placeholder="Phone" required>
+                            <input type="email" name="{{ application_form.email.name }}" id="{{ application_form.email.id_for_label }}" placeholder="Email" required>
+                            
+                            {# This will be our dynamic dropdown #}
+                            <select name="{{ application_form.course_option.name }}" id="{{ application_form.course_option.id_for_label }}" required>
+                                {% get_course_options %}
+                            </select>
+                        {% endif %}
+
+                        <button type="submit">Apply Now</button>
+                    </form>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+
+    <!-- END POPUP MODAL FORM -->
+ 
+    <!-- DYNAMIC WHATSAPP BUTTON -->
+    {% if settings.site_settings.SiteSettings.whatsapp_number %}
+        <a href="https://wa.me/{{ settings.site_settings.SiteSettings.whatsapp_number }}?text={{ settings.site_settings.SiteSettings.whatsapp_prefilled_text|urlencode }}" class="whatsapp-chat-button" target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp">
+            <i class="fab fa-whatsapp"></i>
+        </a>
+    {% endif %}
+
+    <!-- JavaScript Files -->
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox-plus-jquery.min.js"></script>
+
+    <!-- Script for Testimonial Slider -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+          const testimonialSlider = document.querySelector('.testimonial-slider');
+          if (testimonialSlider) {
+            new Swiper(testimonialSlider, {
+              slidesPerView: 1, spaceBetween: 30,
+              breakpoints: { 992: { slidesPerView: 2, spaceBetween: 40 }},
+              loop: true,
+              navigation: { nextEl: '.slider-arrow.next', prevEl: '.slider-arrow.prev' },
+            });
+          }
+        });
+      </script>
+      
+      <!-- Script for Photo Gallery Slider -->
+      <script>
+          document.addEventListener("DOMContentLoaded", function() {
+            const gallerySlider = document.querySelector('.gallery-slider');
+            if (gallerySlider) {
+              new Swiper(gallerySlider, {
+                slidesPerView: 1, spaceBetween: 0, loop: true,
+                breakpoints: { 768: { slidesPerView: 2 }, 1024: { slidesPerView: 3 }},
+                navigation: { nextEl: '.gallery-arrow-next', prevEl: '.gallery-arrow-prev' },
+              });
+            }
+          });
+      </script>
+  
+      <!-- Script for Tabbed Content Section -->
+      <script>
+          document.addEventListener('DOMContentLoaded', function () {
+              const tabNavItems = document.querySelectorAll('.tab-nav-item');
+              if (tabNavItems.length > 0) {
+                  const tabPanes = document.querySelectorAll('.tab-pane');
+                  tabNavItems.forEach(item => {
+                      item.addEventListener('click', function () {
+                          tabNavItems.forEach(nav => nav.classList.remove('active'));
+                          tabPanes.forEach(pane => pane.classList.remove('active'));
+                          this.classList.add('active');
+                          const tabId = this.getAttribute('data-tab');
+                          document.getElementById(tabId)?.classList.add('active');
+                      });
+                  });
+              }
+          });
+      </script>
+  
+      <!-- Script for Mobile Navigation Toggle -->
+      <script>
+          document.addEventListener('DOMContentLoaded', function () {
+              const navToggle = document.querySelector('.nav-toggle');
+              const navRight = document.querySelector('.nav-right');
+              if (navToggle && navRight) {
+                  navToggle.addEventListener('click', () => {
+                      navRight.classList.toggle('active');
+                      navToggle.classList.toggle('active');
+                  });
+              }
+          });
+      </script>
+  
+      <!-- Script for Mobile Dropdown Accordion -->
+      <script>
+          document.addEventListener('DOMContentLoaded', function () {
+              const dropdownToggles = document.querySelectorAll('.nav-right .has-dropdown > a');
+              dropdownToggles.forEach(link => {
+                  link.addEventListener('click', function (event) {
+                      if (window.innerWidth <= 1024) {
+                          event.preventDefault();
+                          const parentLi = link.parentElement;
+                          parentLi.classList.toggle('active');
+                      }
+                  });
+              });
+          });
+      </script>
+              
+      <!-- Script for Course Page Learning Tabs -->
+      <script>
+          document.addEventListener('DOMContentLoaded', function () {
+              const learningTabNavItems = document.querySelectorAll('.learning-tab-nav-item');
+              if (learningTabNavItems.length > 0) {
+                  const learningTabPanes = document.querySelectorAll('.learning-tab-pane');
+                  learningTabNavItems.forEach(item => {
+                      item.addEventListener('click', function() {
+                          learningTabNavItems.forEach(nav => nav.classList.remove('active'));
+                          learningTabPanes.forEach(pane => pane.classList.remove('active'));
+                          this.classList.add('active');
+                          const targetId = this.getAttribute('data-target');
+                          document.getElementById(targetId)?.classList.add('active');
+                      });
+                  });
+              }
+          });
+      </script>
+  
+      <!-- Script for Popup Modal (AJAX Form) - CORRECTED VERSION -->
+      <script>
+          document.addEventListener('DOMContentLoaded', function () {
+              const popupOverlay = document.getElementById('apply-popup');
+              if (popupOverlay) {
+                  const openPopupButtons = document.querySelectorAll('[data-open-popup="apply-popup"]');
+                  const closePopupButtons = document.querySelectorAll('[data-close-popup="apply-popup"]');
+                  const formContent = popupOverlay.querySelector('.popup-form-content');
+                  const formElement = popupOverlay.querySelector('.popup-form');
+  
+                  openPopupButtons.forEach(button => {
+                      button.addEventListener('click', function (e) {
+                          e.preventDefault();
+                          popupOverlay.classList.add('active');
+                      });
+                  });
+      
+                  closePopupButtons.forEach(button => {
+                      button.addEventListener('click', function () {
+                          popupOverlay.classList.remove('active');
+                      });
+                  });
+      
+                  popupOverlay.addEventListener('click', function(e) {
+                      if (e.target === popupOverlay) {
+                          popupOverlay.classList.remove('active');
+                      }
+                  });
+  
+                  if (formElement) {
+                      formElement.addEventListener('submit', function(e) {
+                          e.preventDefault();
+                          const formData = new FormData(formElement);
+                          fetch(window.location.href, {
+                              method: 'POST',
+                              headers: {
+                                  'X-Requested-With': 'XMLHttpRequest',
+                                  'X-CSRFToken': formData.get('csrfmiddlewaretoken'),
+                              },
+                              body: formData,
+                          })
+                          .then(response => response.json())
+                          .then(data => {
+                              if (data.success) {
+                                  formContent.innerHTML = `<div class="form-success-message" style="text-align: center; color: #1abc9c;"><h3>Thank You!</h3><p>Your application has been received.</p></div>`;
+                              }
+                          })
+                          .catch(error => console.error('Error:', error));
+                      });
+                  }
+              }
+          });
+      </script>
+  
+      <!-- Script for "Read More" / "Read Less" button -->
+      <script>
+          document.addEventListener('DOMContentLoaded', function () {
+              const listWrappers = document.querySelectorAll('.learning-list-wrapper');
+              listWrappers.forEach(wrapper => {
+                  const list = wrapper.querySelector('ul');
+                  const readMoreBtn = wrapper.querySelector('.read-more-btn');
+                  if (list && readMoreBtn) {
+                      const listItems = list.querySelectorAll('li');
+                      const limit = 6;
+                      if (listItems.length > limit) {
+                          const toggleItems = show => {
+                              for (let i = limit; i < listItems.length; i++) {
+                                  listItems[i].style.display = show ? 'list-item' : 'none';
+                              }
+                          };
+                          toggleItems(false);
+                          readMoreBtn.style.display = 'inline-block';
+                          readMoreBtn.textContent = 'Read More';
+                          readMoreBtn.addEventListener('click', function () {
+                              const isExpanded = this.textContent === 'Read Less';
+                              toggleItems(!isExpanded);
+                              this.textContent = isExpanded ? 'Read More' : 'Read Less';
+                          });
+                      }
+                  }
+              });
+          });
+      </script>
+      
+      <!-- Script for Light/Dark Mode Toggle with Logo Swapping -->
+      <script>
+          document.addEventListener('DOMContentLoaded', function () {
+              const themeToggleBtn = document.getElementById('theme-toggle');
+              const siteLogo = document.getElementById('site-logo');
+              const darkLogoSrc = "{% static 'img/logo.png' %}";
+              const lightLogoSrc = "{% if settings.site_settings.SiteSettings.light_logo %}{% image settings.site_settings.SiteSettings.light_logo original as light_logo_img %}{{ light_logo_img.url }}{% endif %}";
+  
+              function applyTheme(theme) {
+                  if (theme === 'light') {
+                      document.body.classList.add('light-mode');
+                      if (siteLogo && lightLogoSrc) { siteLogo.src = lightLogoSrc; }
+                  } else {
+                      document.body.classList.remove('light-mode');
+                      if (siteLogo) { siteLogo.src = darkLogoSrc; }
+                  }
+              }
+  
+              const savedTheme = localStorage.getItem('theme') || 'dark';
+              applyTheme(savedTheme);
+  
+              if (themeToggleBtn) {
+                  themeToggleBtn.addEventListener('click', function() {
+                      const newTheme = document.body.classList.contains('light-mode') ? 'dark' : 'light';
+                      applyTheme(newTheme);
+                      localStorage.setItem('theme', newTheme);
+                  });
+              }
+          });
+      </script>
+</body>
+</html>

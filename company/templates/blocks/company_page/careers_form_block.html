@@ -1,0 +1,28 @@
+<!-- inside careers_form_block.html -->
+
+
+{% load wagtailcore_tags %}
+
+<div class="careers-form-content">
+    <h2>{{ self.title }}</h2>
+    <p class="subtitle">{{ self.subtitle }}</p>
+    <div class="email-info rich-text">{{ self.email_info|richtext }}</div>
+
+    {% if career_form_success %}
+        <div class="form-success-message" style="text-align: center; color: var(--text-primary); margin-top: 2rem;">
+            <h3>Thank You!</h3>
+            <p>Your application has been received.</p>
+        </div>
+    {% else %}
+        <form action="#careers-form" method="POST" class="careers-form" id="careers-form">
+            {% csrf_token %}
+            
+            {# Render the form fields from the context #}
+            {% for field in career_form %}
+                <input type="{{ field.field.widget.input_type }}" name="{{ field.name }}" placeholder="{{ field.label }}" required>
+            {% endfor %}
+
+            <button type="submit" class="send-btn">Send</button>
+        </form>
+    {% endif %}
+</div>

@@ -1,0 +1,29 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+<section class="photo-gallery-section">
+    <div class="gallery-slider-container">
+        <!-- Main Swiper container -->
+        <div class="gallery-slider">
+            <!-- Additional required wrapper -->
+            <div class="swiper-wrapper">
+                <!-- Slides -->
+                {% for item in self.images %}
+                    <div class="swiper-slide">
+                        <div class="gallery-item">
+                            {% image item.image fill-1000x600 as img %}
+                            <img src="{{ img.url }}" alt="{{ item.label }}">
+                            <div class="gallery-item-overlay">
+                                <h3>{{ item.label }}</h3>
+                                {% if item.link_page %}
+                                    <a href="{% pageurl item.link_page %}">{{ item.button_text }}</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <!-- If we need navigation buttons -->
+        <div class="gallery-slider-arrow gallery-arrow-prev">&lt;</div>
+        <div class="gallery-slider-arrow gallery-arrow-next">&gt;</div>
+    </div>
+</section>

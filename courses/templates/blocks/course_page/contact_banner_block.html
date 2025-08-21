@@ -1,0 +1,21 @@
+{% load wagtailimages_tags %}
+<section class="contact-banner-section">
+    <div class="contact-banner-grid">
+        <div class="contact-banner-item">
+            {% if self.contact_one_flag %}
+                {% image self.contact_one_flag original as flag %}
+                <img src="{{ flag.url }}" alt="" class="flag-icon">
+            {% endif %}
+            <a href="tel:{{ self.contact_one_phone }}">📲{{ self.contact_one_phone }}</a>
+            <a href="mailto:{{ self.contact_one_email }}">📨{{ self.contact_one_email }}</a>
+        </div>
+        <div class="contact-banner-item">
+            {% if self.contact_two_flag %}
+                {% image self.contact_two_flag original as flag %}
+                <img src="{{ flag.url }}" alt="" class="flag-icon">
+            {% endif %}
+            <a href="tel:{{ self.contact_two_phone }}">📲{{ self.contact_two_phone }}</a>
+            <a href="mailto:{{ self.contact_two_email }}">📨{{ self.contact_two_email }}</a>
+        </div>
+    </div>
+</section>

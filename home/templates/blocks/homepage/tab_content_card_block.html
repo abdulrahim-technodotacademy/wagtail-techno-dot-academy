@@ -1,0 +1,21 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+<div class="tab-content-card">
+    <div class="tab-content-card-header">
+        <h3 class="tab-content-card-title">{{ self.header_title }}</h3>
+        {% if self.header_subtitle %}
+            <p class="tab-content-card-subtitle">{{ self.header_subtitle }}</p>
+        {% endif %}
+    </div>
+    <div class="tab-content-card-body">
+        <div class="tab-content-card-icon">
+            {% image self.icon original as icon %}
+            <img src="{{ icon.url }}" alt="">
+        </div>
+        <p class="tab-content-card-text">{{ self.text }}</p>
+        <div class="tab-content-card-button">
+            {% if self.button_link %}
+                <a href="{% pageurl self.button_link %}">{{ self.button_text }}</a>
+            {% endif %}
+        </div>
+    </div>
+</div>

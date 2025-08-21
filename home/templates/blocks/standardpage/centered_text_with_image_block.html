@@ -1,0 +1,19 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+
+<section class="centered-text-image">
+    <div class="centered-text-image-container">
+
+        <div class="centered-text-image-content">
+            <h3>{{ self.title }}</h3>
+            <div class="rich-text">
+                {{ self.text|richtext }}
+            </div>
+        </div>
+
+        <div class="centered-text-image-visual">
+            {% image self.image original as img %}
+            <img src="{{ img.url }}" alt="">
+        </div>
+
+    </div>
+</section>

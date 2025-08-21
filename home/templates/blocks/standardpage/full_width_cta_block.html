@@ -1,0 +1,9 @@
+{% load wagtailcore_tags %}
+<section class="page-section full-width-cta">
+    <div class="full-width-cta-content">
+        <h2 class="full-width-cta-title">{{ self.title|safe }}</h2>
+        <div class="full-width-cta-text rich-text">
+            {{ self.text|richtext }}
+        </div>
+    </div>
+</section>

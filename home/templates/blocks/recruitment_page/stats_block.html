@@ -1,0 +1,17 @@
+{% load wagtailcore_tags %}
+<section class="rec-stats">
+    <div class="rec-stats-grid">
+        <div class="rec-stats-left rich-text">
+            <h3>{{ self.left_column_title|safe }}</h3>
+            {{ self.stats_left|richtext }}
+        </div>
+        <div class="rec-stats-right">
+            {% for stat in self.stats_right %}
+                <div class="rec-stat-circle">
+                    <div class="percentage">{{ stat.percentage }}</div>
+                    <div class="label">{{ stat.label }}</div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>

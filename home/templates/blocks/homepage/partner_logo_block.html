@@ -1,0 +1,8 @@
+{% load wagtailimages_tags %}
+
+<div class="partner-logo-card">
+    {# This renders the image. 'original' means use the original file. #}
+    {# The alt text is crucial for accessibility. #}
+    {% image self.logo_image original as partner_logo %}
+    <img src="{{ partner_logo.url }}" alt="{{ self.partner_name }}" loading="lazy">
+</div>

@@ -1,0 +1,19 @@
+{% load wagtailimages_tags %}
+
+<div class="swiper-slide">
+    <div class="testimonial-slide">
+        <div class="testimonial-image">
+            {% image self.image fill-120x120-c100 as img %}
+            <img src="{{ img.url }}" alt="{{ self.author_name }}">
+        </div>
+
+        <div class="testimonial-content">
+            <p class="testimonial-quote">"{{ self.quote }}"</p>
+            
+            <div class="testimonial-author-info">
+                <p class="testimonial-author">{{ self.author_name }}</p>
+                <p class="testimonial-role">{{ self.author_role }}</p>
+            </div>
+        </div>
+    </div>
+</div>

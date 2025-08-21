@@ -1,0 +1,10 @@
+{% load wagtailcore_tags %}
+
+<section class="solutions-section">
+    <h2 class="solutions-title">{{ self.title }}</h2>
+    <div class="solutions-grid">
+        {% for card in self.solutions %}
+            {% include_block card %}
+        {% endfor %}
+    </div>
+</section>

@@ -1,0 +1,42 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+
+<section class="providers-video-section">
+    
+    {# Display the new main title if it exists #}
+    {% if self.main_title %}
+        <h2 class="providers-section-main-title">{{ self.main_title }}</h2>
+    {% endif %}
+
+    <div class="providers-video-grid">
+        <div class="providers-content">
+            {% if self.subtitle %}<p class="subtitle">{{ self.subtitle }}</p>{% endif %}
+            {% if self.title %}<h2>{{ self.title }}</h2>{% endif %}
+            
+            {% if self.logos %}
+            <div class="provider-logos">
+                {% for logo in self.logos %}
+                    {% image logo original as logo_img %}
+                    <img src="{{ logo_img.url }}" alt="">
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <div class="provider-buttons">
+                {% if self.enquire_button_text %}
+                    <a href="#" class="enquire-btn" data-open-popup="apply-popup">{{ self.enquire_button_text }}</a>
+                {% endif %}
+                {% if self.brochure_file %}
+                    <a href="{{ self.brochure_file.url }}" class="brochure-btn" download>{{ self.brochure_button_text }}</a>
+                {% endif %}
+            </div>
+        </div>
+
+        {% if self.video_url and self.video_thumbnail %}
+        <a href="{{ self.video_url }}" class="video-thumbnail" target="_blank" rel="noopener noreferrer">
+            {% image self.video_thumbnail fill-800x600 as thumb %}
+            <img src="{{ thumb.url }}" alt="Video thumbnail">
+            <div class="play-button">&#9658;</div>
+        </a>
+        {% endif %}
+    </div>
+</section>

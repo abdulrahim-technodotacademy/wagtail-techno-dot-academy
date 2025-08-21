@@ -1,0 +1,23 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+<section class="consulting-main-section">
+    <div class="consulting-main-grid">
+        <div class="consulting-main-visual">
+            {% image self.background_image original as img %}
+            <img src="{{ img.url }}" class="consulting-main-visual-bg" alt="">
+        </div>
+        <div class="consulting-services-list">
+            {% for service in self.services %}
+                <div class="service-item">
+                    <div class="service-item-icon">
+                        {% image service.icon original as icon %}
+                        <img src="{{ icon.url }}" alt="">
+                    </div>
+                    <div class="service-item-content">
+                        <h3>{{ service.title }}</h3>
+                        <div class="rich-text">{{ service.text|richtext }}</div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
